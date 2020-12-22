@@ -26,7 +26,10 @@ public class HtmlUtilTest {
 
         HtmlPage page = null;
         try {
-            page = webClient.getPage("http://www.aihanyu.org/api/v2/topic_detail.aspx?info=1_1_3&start=1&size=1");//尝试加载上面图片例子给出的网页
+            for (int i = 0; i < 140; i++) {
+
+            }
+            page = webClient.getPage("http://www.aihanyu.org/api/v2/topic_detail.aspx?info=1_1_2&start=5&size=1");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -36,16 +39,19 @@ public class HtmlUtilTest {
         webClient.waitForBackgroundJavaScript(30000);//异步JS执行需要耗时,所以这里线程要阻塞30秒,等待异步JS执行结束
 
         String pageXml = page.asXml();//直接将加载完成的页面转换成xml格式的字符串
-        System.out.println(pageXml);
+        //System.out.println(pageXml);
 
         //TODO 下面的代码就是对字符串的操作了,常规的爬虫操作,用到了比较好用的Jsoup库
 
-//        Document document = Jsoup.parse(pageXml);//获取html文档
-//        List<Element> infoListEle = document.getElementById("feedCardContent").getElementsByAttributeValue("class", "feed-card-item");//获取元素节点等
-//        infoListEle.forEach(element -> {
-//            System.out.println(element.getElementsByTag("h2").first().getElementsByTag("a").text());
-//            System.out.println(element.getElementsByTag("h2").first().getElementsByTag("a").attr("href"));
-//        });
+        Document document = Jsoup.parse(pageXml);//获取html文档
+        String contenu = document.body().text();
+        System.out.println(contenu);
+        String [] temp;
+        temp = contenu.split(",");
+        for (int i = 0; i < temp.length ; i++) {
+            System.out.println(temp[i]);
+        }
+
     }
 }
 
